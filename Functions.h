@@ -263,7 +263,7 @@ string create_expr(string expr) {
         }
         else {
             string str1 = expr.substr(l, r + 1);
-            string str2 = "log(" + expr.substr(l, pos - l) +
+            string str2 = "ln(" + expr.substr(l, pos - l) +
                           ")*(" + expr.substr(pos + 1, r - pos) + ")";
             return str1 + "*" + create_expr(str2) + "";
         }
