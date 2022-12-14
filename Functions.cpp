@@ -5,13 +5,9 @@
 // Created by Professional on 27.11.2022.
 //
 #include "Functions.h"
-#include<iostream>
-#include "Stack.h"
-#include<cmath>
-
 using namespace std;
-int find_plusORminus(string& str, int l, int r) {
-    Stack BKT;
+int Derivative::find_plusORminus(const string& str, int l, int r) {
+    vector<char> BKT;
     int x = -1;
     for (int i = l; i <= r; i++) {
         if (str[i] == '(') {
@@ -21,7 +17,7 @@ int find_plusORminus(string& str, int l, int r) {
             BKT.pop_back();
         }
         else if (str[i] == '+' || str[i] == '-') {
-            if (BKT.is_empty() == false) {
+            if (BKT.empty() == false) {
                 continue;
             }
             else {
@@ -32,8 +28,8 @@ int find_plusORminus(string& str, int l, int r) {
     return x;
 }
 
-int find_multiplyORdivide(string& str, int l, int r) {
-    Stack BKT;
+int Derivative:: find_multiplyORdivide(const string& str, int l, int r) {
+    vector<char> BKT;
     int x = -1;
 
     for (int i = l; i <= r; i++) {
@@ -44,7 +40,7 @@ int find_multiplyORdivide(string& str, int l, int r) {
             BKT.pop_back();
         }
         else if (str[i] == '*' || str[i] == '/') {
-            if (BKT.is_empty() == false) {
+            if (BKT.empty() == false) {
                 continue;
             }
             else {
@@ -55,8 +51,9 @@ int find_multiplyORdivide(string& str, int l, int r) {
     return x;
 }
 
-int find_involution(string& str, int l, int r) {
-    Stack BKT;
+int Derivative::find_involution(const string& str, int l, int r) {
+    vector<char> BKT;
+
     int x = -1;
     for (int i = l; i <= r; i++) {
         if (str[i] == '(') {
@@ -66,7 +63,7 @@ int find_involution(string& str, int l, int r) {
             BKT.pop_back();
         }
         else if (str[i] == '^') {
-            if (BKT.is_empty() == false) {
+            if (BKT.empty() == false) {
                 continue;
             }
             else {
@@ -74,20 +71,21 @@ int find_involution(string& str, int l, int r) {
             }
         }
     }
+
     return x;
 }
 
-bool check_brackets(string& str, int l, int r) {
-    Stack A;
+bool Derivative::check_brackets(const string& str, int l, int r) {
+    vector<char> BKT;
     for (int i = l + 1; i <= r - 1; i++) {
         if (str[i] == '(') {
-            A.push_back('(');
+            BKT.push_back('(');
         }
-        if (str[i] == ')' && A.is_empty() == false) {
-            A.pop_back();
+        if (str[i] == ')' && BKT.empty() == false) {
+            BKT.pop_back();
         }
     }
-    if (A.is_empty() == true) {
+    if (BKT.empty() == true) {
         return false;
     }
     else {
@@ -95,7 +93,7 @@ bool check_brackets(string& str, int l, int r) {
     }
 }
 
-int find_X(string& str, int l, int r) {
+int Derivative::find_X(const string& str, int l, int r) {
     for (int i = l; i <= r; i++) {
         if (str[i] == 'x') {
             return i;
@@ -105,7 +103,7 @@ int find_X(string& str, int l, int r) {
 }
 
 
-string find_function(string& str, int l, int r) {
+string Derivative::find_function(const string& str, int l, int r) {
     int i = l;
     bool exists = false;
     for (i; i <= r; i++) {
@@ -152,7 +150,7 @@ string find_function(string& str, int l, int r) {
     }
 }
 
-bool check_if_num(char x) {
+bool Derivative::check_if_num(char x) {
     if (x == '0' || x == '1' || x == '2' || x == '3' || x == '4' || x == '5'
         || x == '6' || x == '7' || x == '8' || x == '9' || x == '.') {
         return true;
@@ -160,7 +158,7 @@ bool check_if_num(char x) {
     return false;
 }
 
-bool check_if_letter(char x) {
+bool Derivative::check_if_letter(char x) {
     for (int i = 0; i <= 25; i++) {
         if (x == 'a' + i) {
             return true;
@@ -172,7 +170,7 @@ bool check_if_letter(char x) {
     return false;
 }
 
-string construct_num(string& str, int l, int r) {
+string Derivative::construct_num(const string& str, int l, int r) {
     int size = 0;
     for (int i = l; i <= r; i++) {
         if (check_if_num(str[i])) {
@@ -188,7 +186,7 @@ string construct_num(string& str, int l, int r) {
     return str.substr(l, size);
 }
 
-string construct_word(string& str, int l){
+string Derivative::construct_word(const string& str, int l){
     int size = 0;
     if(str[l] == '['){
         int r = l;
@@ -206,7 +204,7 @@ string construct_word(string& str, int l){
     return str.substr(l, size);
 }
 
-string create_expr(string expr) {
+string Derivative::create_expr(string expr) {
     int l = 0, r = expr.length() - 1;
     for (l,r ; expr[l] == '(' && expr[r] == ')' && check_brackets(expr, l, r) == false; l++, r--);
 
@@ -319,4 +317,42 @@ string create_expr(string expr) {
         return "1";
     }
     return "0";
+}
+string Derivative:: find_key_word(const string& str){
+    for(int i = 0; i < arr.size(); i++){
+        if(arr[i][str.length() - 1] == ']' || arr[i][0] == '['){
+            return "fuu";
+        }
+        else{
+            return "const";
+        }
+    }
+    return "const";
+}
+Derivative::Derivative(string expr) {
+    string function;
+    for (int i = 0; i < expr.length(); i++) {
+        if (check_if_letter(expr[i]) == true && expr[i] != 'x')
+        {
+            if ((function = find_function(expr, i, expr.length() - 1)) == "!") {
+                function = construct_word(expr, i);
+                arr.push_back(function);
+                i = i + construct_word(expr, i).length();
+            } else {
+                i = i + find_function(expr, i, expr.length() - 1).length();
+            }
+        }
+    }
+    result = create_expr(expr);
+    if(result.length() > 3) {
+        for (int i = 1; i <= result.length() - 2; i++) {
+            if (result[i - 1] == '(' && result[i + 1] == ')' && 'x' != result[i]) {
+                result.erase(i + 1, 1);
+                result.erase(i - 1, 1);
+            }
+        }
+    }
+}
+string Derivative::get_result() {
+    return result;
 }
